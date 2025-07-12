@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Manager</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="header-title">📁 Dropbox</h1>
+                {% if current_path %}
+                    <div class="breadcrumb">
+                        <a href="{{ url_for('browse', subpath='') }}">Home</a>
+                        <span>›</span>
+                        <span>{{ current_path.split('/')[-1] if '/' in current_path else current_path }}</span>
+                    </div>
+                {% endif %}
+            </div>
+            <button class="add-btn" onclick="document.getElementById('fileInput').click()">
+                <span>+</span>
+                <span>Add Files</span>
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="drop-zone" id="dropZone">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">📁</div>
+            <div>Drag and drop files here or click "Add Files" to upload</div>
+        </div>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        {% if files %}
+            <div class="grid" id="fileGrid">
+                {% for f in files %}
+                <div class="item" data-path="{{ f.path }}" data-name="{{ f.name }}" data-type="{{ 'folder' if f.is_dir else 'file' }}">
+                    {% if f.is_dir %}
+                        <div class="item-icon">📁</div>
+                        <div class="item-name">{{ f.name }}</div>
+                        <div class="item-info">Folder</div>
+                    {% elif f.is_image %}
+                        <div class="item-preview">
+                            <img src="{{ url_for('get_file', filepath=f.path) }}" alt="{{ f.name }}">
+                        </div>
+                        <div class="item-name">{{ f.name }}</div>
+                        <div class="item-info">{{ format_file_size(f.size) }}</div>
+                    {% elif f.is_video %}
+                        <div class="item-preview">
+                            <video src="{{ url_for('get_file', filepath=f.path) }}" muted></video>
+                        </div>
+                        <div class="item-name">{{ f.name }}</div>
+                        <div class="item-info">{{ format_file_size(f.size) }}</div>
+                    {% elif f.is_audio %}
+                        <div class="item-icon">🎵</div>
+                        <div class="item-name">{{ f.name }}</div>
+                        <div class="item-info">{{ format_file_size(f.size) }}</div>
+                    {% elif f.is_document %}
+                        <div class="item-icon">📄</div>
+                        <div class="item-name">{{ f.name }}</div>
+                        <div class="item-info">{{ format_file_size(f.size) }}</div>
+                    {% elif f.is_archive %}
+                        <div class="item-icon">📦</div>
+                        <div class="item-name">{{ f.name }}</div>
+                        <div class="item-info">{{ format_file_size(f.size) }}</div>
+                    {% else %}
+                        <div class="item-icon">📄</div>
+                        <div class="item-name">{{ f.name }}</div>
+                        <div class="item-info">{{ format_file_size(f.size) }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">📁</div>
+                <h3>No files found</h3>
+                <p>This folder is empty. Add some files to get started.</p>
+            </div>
+        {% endif %}
+    </div>
+    <div class="bottom-actions" id="bottomActions">
+        <div class="actions-grid">
+            <button class="action-btn" onclick="shareItem()">
+                <div class="action-icon">📤</div>
+                <div>Share</div>
+            </button>
+            <button class="action-btn" onclick="renameItem()">
+                <div class="action-icon">✏️</div>
+                <div>Rename</div>
+            </button>
+            <button class="action-btn" onclick="moveItem()">
+                <div class="action-icon">📁</div>
+                <div>Move</div>
+            </button>
+            <button class="action-btn" onclick="copyItem()">
+                <div class="action-icon">📋</div>
+                <div>Copy</div>
+            </button>
+            <button class="action-btn danger" onclick="deleteItem()">
+                <div class="action-icon">🗑️</div>
+                <div>Delete</div>
+            </button>
+        </div>
+    </div>
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <input type="file" id="fileInput" class="file-input" multiple onchange="handleFiles(this.files)">
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

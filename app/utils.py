@@ -1,10 +1,8 @@
 import os
 from datetime import datetime
 
-BASE_DIR = "/sdcard/Share"
-
-def list_files(subpath=""):
-    full_path = os.path.join(BASE_DIR, subpath)
+def list_files(subpath="", base_dir="/sdcard/Share"):
+    full_path = os.path.join(base_dir, subpath)
     items = []
     for fname in os.listdir(full_path):
         fpath = os.path.join(full_path, fname)

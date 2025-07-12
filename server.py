@@ -1,3 +1,6 @@
+# This file is now deprecated. Please use main.py to run the application.
+
+
 from flask import Flask, request, send_from_directory, jsonify, render_template_string, redirect, url_for
 import os
 import json
@@ -10,10 +13,7 @@ BASE_DIR = "/sdcard/Share"  # مسیر پوشه اصلی فایل‌ها
 UPLOAD_FOLDER = BASE_DIR
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-from core.app import app
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+# لیست فایل‌ها و پوشه‌ها
 def list_files(subpath=""):
     full_path = os.path.join(BASE_DIR, subpath)
     items = []
