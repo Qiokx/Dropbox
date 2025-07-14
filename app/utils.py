@@ -1,8 +1,25 @@
+
 import os
 from datetime import datetime
 
-def list_files(subpath="", base_dir="/sdcard/Share"):
+import importlib
+
+def get_base_dir():
+    """
+    مسیر پایه را بر اساس حالت موبایل یا دسکتاپ برمی‌گرداند.
+    """
+    config = importlib.import_module("app.config")
+    if getattr(config, "IS_MOBILE", False):
+        return "/sdcard/Share"
+    else:
+        return os.path.expanduser("~/Dropbox")
+
+def list_files(subpath="", base_dir=None):
+    if base_dir is None:
+        base_dir = get_base_dir()
     full_path = os.path.join(base_dir, subpath)
+    if not os.path.exists(full_path):
+        os.makedirs(full_path, exist_ok=True)
     items = []
     for fname in os.listdir(full_path):
         fpath = os.path.join(full_path, fname)
