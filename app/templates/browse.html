@@ -1,16 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>File Manager</title>
+    <title>zebox | Local Storage & File Sharing over LAN</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- PWA & Icons -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="theme-color" content="#1976d2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Dropbox">
+    <meta name="description" content="zebox - Local storage and file sharing between devices on your LAN. Transfer, manage, and sync files easily and securely across your local network.">
+    <meta name="keywords" content="zebox, local storage, file sharing, LAN, file transfer, file sync, PWA, private cloud, progressive web app, local file server, network storage, device sync, offline storage, secure file sharing">
+    <meta property="og:title" content="zebox | Local Storage & File Sharing over LAN" />
+    <meta property="og:description" content="zebox - A solution for local storage and file sharing between devices on your LAN with high security and speed." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ url_for('static', filename='android-chrome-192x192.png') }}" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="zebox | Local Storage & File Sharing over LAN" />
+    <meta name="twitter:description" content="zebox - Local storage and file sharing between devices on your LAN." />
+    <meta name="twitter:image" content="{{ url_for('static', filename='android-chrome-192x192.png') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register("{{ url_for('static', filename='service-worker.js') }}");
+        });
+      }
+    </script>
 </head>
 <body>
     <div class="header">
         <div class="header-content">
             <div class="header-left">
-                <h1 class="header-title">📁 Dropbox</h1>
+                <img src="{{ url_for('static', filename='android-chrome-192x192.png') }}" alt="Logo" style="height:40px;width:40px;vertical-align:middle;margin-left:8px;">
+                <h1 class="header-title" style="display:inline-block;vertical-align:middle;margin:0 0 0 10px;">zebox</h1>
                 {% if current_path %}
                     <div class="breadcrumb">
                         <a href="{{ url_for('browse', subpath='') }}">Home</a>

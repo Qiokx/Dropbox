@@ -1,0 +1,36 @@
+{
+  "name": "Dropbox PWA",
+  "short_name": "Dropbox",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "description": "zebox - فضای ذخیره‌سازی و اشتراک فایل بین دستگاه‌های یک شبکه محلی. انتقال، مدیریت و همگام‌سازی فایل‌ها به سادگی و امنیت بالا در شبکه محلی.",
+  "icons": [
+    {
+      "src": "/app/assets/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/app/assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/app/assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/app/assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/app/assets/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ]
+}
